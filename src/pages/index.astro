@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import VocabularyCard from '../components/VocabularyCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get all vocabulary entries
+const vocabularyEntries = await getCollection('vocabulary');
+---
+
+<Layout title="Vocabulary Trainer - Learn English Words">
+  <div class="mb-8">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-2xl font-semibold text-indigo-900 mb-3">Welcome! 👋</h2>
+      <p class="text-gray-700 mb-2">
+        This vocabulary trainer helps you learn and practice English words. 
+        Each card contains an English word, its German translation, and an example sentence.
+      </p>
+      <p class="text-gray-600 text-sm">
+        Total words: <strong>{vocabularyEntries.length}</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {vocabularyEntries.map((entry) => {
+      // Extract example from markdown body using regex for more robust parsing
+      const exampleMatch = entry.body.match(/# Example\s+([\s\S]*?)(?=# Notes|$)/);
+      const example = exampleMatch ? exampleMatch[1].trim() : '';
+      
+      return (
+        <VocabularyCard
+          word={entry.data.word}
+          translation={entry.data.translation}
+          category={entry.data.category}
+          example={example}
+        />
+      );
+    })}
+  </div>
+
+  {vocabularyEntries.length === 0 && (
+    <div class="text-center py-12">
+      <p class="text-gray-500 text-lg">No vocabulary words yet. Add some markdown files to get started!</p>
+    </div>
+  )}
+</Layout>
