@@ -23,7 +23,9 @@ const vocabularyEntries = await getCollection('vocabulary');
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {vocabularyEntries.map((entry) => {
-      const example = entry.body.split('# Example')[1]?.split('# Notes')[0]?.trim() || '';
+      // Extract example from markdown body using regex for more robust parsing
+      const exampleMatch = entry.body.match(/# Example\s+([\s\S]*?)(?=# Notes|$)/);
+      const example = exampleMatch ? exampleMatch[1].trim() : '';
       
       return (
         <VocabularyCard
