@@ -1,0 +1,40 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = 'Vocabulary Trainer',
+  description = 'English vocabulary trainer for students'
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-8">
+      <header class="mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-indigo-900 mb-2">
+          📚 Vocabulary Trainer
+        </h1>
+        <p class="text-center text-gray-600 text-sm md:text-base">
+          Master your English vocabulary
+        </p>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="mt-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 Vocabulary Trainer. Happy Learning! 🎓</p>
+      </footer>
+    </div>
+  </body>
+</html>
