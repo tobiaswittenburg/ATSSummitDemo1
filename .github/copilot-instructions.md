@@ -136,13 +136,16 @@ export function categorizeWords(words: VocabularyWord[], category: string) {
 }
 
 // Example of testable component logic
-export function getDifficultyColor(difficulty: string): string {
-  const colors = {
+export function getDifficultyColor(
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | undefined
+): string {
+  if (!difficulty) return 'gray';
+  const colors: Record<'beginner' | 'intermediate' | 'advanced', string> = {
     beginner: 'green',
     intermediate: 'yellow',
     advanced: 'red',
   };
-  return colors[difficulty] || 'gray';
+  return colors[difficulty];
 }
 ```
 
@@ -159,9 +162,8 @@ src/
 │   └── vocabulary/   # Markdown vocabulary files
 ├── layouts/          # Page layouts
 │   └── Layout.astro
-├── pages/            # Route pages (file-based routing)
-│   └── index.astro
-└── utils/            # Utility functions (create if needed)
+└── pages/            # Route pages (file-based routing)
+    └── index.astro
 ```
 
 ### Naming Conventions
