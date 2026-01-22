@@ -131,19 +131,24 @@ const { title, description, isActive = false } = Astro.props;
 
 ```typescript
 // Example of testable utility function
-export function categorizeWords(words: VocabularyWord[], category: string) {
-  return words.filter(word => word.category === category);
+import type { CollectionEntry } from 'astro:content';
+
+export function categorizeWords(
+  words: CollectionEntry<'vocabulary'>[],
+  category: string
+) {
+  return words.filter(word => word.data.category === category);
 }
 
-// Example of testable component logic
+// Example of testable component logic (returns Tailwind classes)
 export function getDifficultyColor(
   difficulty: 'beginner' | 'intermediate' | 'advanced' | undefined
 ): string {
-  if (!difficulty) return 'gray';
+  if (!difficulty) return 'bg-gray-100 text-gray-800';
   const colors: Record<'beginner' | 'intermediate' | 'advanced', string> = {
-    beginner: 'green',
-    intermediate: 'yellow',
-    advanced: 'red',
+    beginner: 'bg-green-100 text-green-800',
+    intermediate: 'bg-yellow-100 text-yellow-800',
+    advanced: 'bg-red-100 text-red-800',
   };
   return colors[difficulty];
 }
